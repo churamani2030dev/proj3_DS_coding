@@ -1,29 +1,81 @@
-# proj3_DS_coding
-Employee Events Dashboard Project
-This project is a dashboard to visualize employee events and assess potential risks.
 
-Project Setup
-Clone the repository:
-!git clone https://github.com/udacity/dsnd-dashboard-project
-%cd dsnd-dashboard-project
-Set up a virtual environment and install dependencies:
-!python -m venv .venv
-!source .venv/bin/activate # Windows: .venv\Scripts\activate
-!pip install -r requirements.txt
-# Note: python-package/requirements.txt caused an error, review if needed.
-# !pip install -r python-package/requirements.txt
-Install nice-to-have packages:
-!pip install -q pytest pyngrok
-Running the Dashboard
-To run the dashboard application, execute the following command from the project root directory:bash !PYTHONPATH=$PYTHONPATH:. python report/dashboard.py
+# Software Engineering for Data Scientists 
 
-Note: There was an IndentationError in the report/dashboard.py file during a previous execution attempt. This needs to be resolved for the dashboard to run correctly.
+This repository contains starter code for the **Software Engineering for Data Scientists** final project. Please reference your course materials for documentation on this repository's structure and important files. Happy coding!
 
-Testing
-You can run the project tests using pytest:bash !pytest -q
+### Repository Structure
+```
+├── README.md
+├── assets
+│   ├── model.pkl
+│   └── report.css
+├── env
+├── python-package
+│   ├── employee_events
+│   │   ├── __init__.py
+│   │   ├── employee.py
+│   │   ├── employee_events.db
+│   │   ├── query_base.py
+│   │   ├── sql_execution.py
+│   │   └── team.py
+│   ├── requirements.txt
+│   ├── setup.py
+├── report
+│   ├── base_components
+│   │   ├── __init__.py
+│   │   ├── base_component.py
+│   │   ├── data_table.py
+│   │   ├── dropdown.py
+│   │   ├── matplotlib_viz.py
+│   │   └── radio.py
+│   ├── combined_components
+│   │   ├── __init__.py
+│   │   ├── combined_component.py
+│   │   └── form_group.py
+│   ├── dashboard.py
+│   └── utils.py
+├── requirements.txt
+├── start
+├── tests
+    └── test_employee_events.py
+```
 
-Note: Currently, the test execution shows "no tests ran". This might indicate an issue with test discovery or configuration.
+### employee_events.db
 
-Accessing the Dashboard (via ngrok)
-If you have ngrok set up and an auth token configured (e.g., as a Colab secret), you can expose the dashboard to the internet. However, the attempt to get the ngrok auth token failed in the notebook.python !pip install -q pyngrok from pyngrok import ngrok from google.colab import userdata
+```mermaid
+erDiagram
 
+  employee {
+    INTEGER employee_id PK
+    TEXT first_name
+    TEXT last_name
+    INTEGER team_id
+    
+  }
+
+  employee_events {
+    TEXT event_date
+    INTEGER employee_id FK
+    INTEGER team_id FK
+    INTEGER positive_events
+    INTEGER negative_events
+  }
+
+  notes {
+    INTEGER employee_id PK
+    INTEGER team_id PK
+    TEXT note
+    TEXT note_date PK
+  }
+
+  team {
+    INTEGER team_id PK
+    TEXT team_name
+    TEXT shift
+    TEXT manager_name
+  }
+
+  team ||--o{ employee_events : "team_id"
+  employee ||--o{ employee_events : "employee_id"
+  notes }o--o{ employee_events : ""
+```
